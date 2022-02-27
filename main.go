@@ -24,6 +24,12 @@ func main() {
 	octalAdd := getOps.String("octalAdd", "", "adds octals")
 	hexAdd := getOps.String("hexAdd", "", "adds hexs")
 
+	getOpsSubs := flag.NewFlagSet("substraction", flag.ExitOnError)
+
+	binarySubs := getOpsSubs.String("binarySubs", "", "substract binaries")
+	octalSubs := getOpsSubs.String("octalSubs", "", "substract octals")
+	hexSubs := getOpsSubs.String("hexSubs", "", "substract hex")
+
 	if len(os.Args) < 2 {
 		fmt.Println("Expected the name of the function and it's value")
 		os.Exit(1)
@@ -35,6 +41,8 @@ func main() {
 			decimalToOctal, octalToDecimal, decimalToHex, hexToDecimal)
 	case "addition":
 		addition(getOps, binaryAdd, octalAdd, hexAdd)
+	case "substraction":
+		substraction(getOpsSubs, binarySubs, octalSubs, hexSubs)
 	default:
 		fmt.Println("Smth went wrong")
 	}
@@ -102,6 +110,33 @@ func addition(getOps *flag.FlagSet, binaryAdd *string, octalAdd *string, hexAdd 
 	} else if *hexAdd != "" {
 		slice := strings.Split(strings.TrimSpace(*hexAdd), ",")
 		res, _ := functions.AdditionOverHex(slice[0], slice[1])
+		fmt.Println(res)
+		return
+	}
+}
+
+func substraction(getOpsSubs *flag.FlagSet, binarySubs *string, octalSubs *string, hexSubs *string) {
+	getOpsSubs.Parse(os.Args[2:])
+
+	if *binarySubs == "" && *octalSubs == "" && *hexSubs == "" {
+		fmt.Println("Provide more arguments")
+		getOpsSubs.PrintDefaults()
+		os.Exit(1)
+	}
+
+	if *binarySubs != "" {
+		slice := strings.Split(strings.TrimSpace(*binarySubs), ",")
+		res := functions.SubstractionOverBinary(slice[0], slice[1])
+		fmt.Println(res)
+		return
+	} else if *octalSubs != "" {
+		slice := strings.Split(strings.TrimSpace(*octalSubs), ",")
+		res := functions.SubstractionOverOctal(slice[0], slice[1])
+		fmt.Println(res)
+		return
+	} else if *hexSubs != "" {
+		slice := strings.Split(strings.TrimSpace(*hexSubs), ",")
+		res := functions.SubstractionOverHex(slice[0], slice[1])
 		fmt.Println(res)
 		return
 	}

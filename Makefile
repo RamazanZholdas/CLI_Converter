@@ -13,3 +13,6 @@ launch_cli_convert:
 
 launch_cli_addition:
 	./bin/main.exe addition --octalAdd 23,21
+
+launch_cli_substraction:
+	./bin/main.exe substraction --binarySubs 1111,1100
